@@ -1,10 +1,16 @@
 using Microsoft.EntityFrameworkCore;
 using Payment_API.Data;
+using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-builder.Services.AddControllers();
+builder.Services.AddControllers().AddJsonOptions(x =>
+{
+    x.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
+});
+
+
 
 //database service SQL Server
 builder.Services.AddDbContext<PaymentApiContext>
