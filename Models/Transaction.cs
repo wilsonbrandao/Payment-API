@@ -16,6 +16,5 @@ namespace Payment_API.Models
         //virtual to lazy load
         public virtual Sale Sale { get; set; }
         public virtual Product Product { get; set; }
-
     }
 }

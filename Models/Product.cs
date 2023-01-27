@@ -10,7 +10,7 @@ namespace Payment_API.Models
         public int Id { get; set; }
 
         [Required(ErrorMessage = "'Name' field is required")]
-        [StringLength(100, ErrorMessage = "The name field cannot exceed 100 characters")]
+        [StringLength(100, ErrorMessage = "'Name' field cannot exceed 100 characters")]
         public string Name { get; set; }
 
         [Required(ErrorMessage = "'ProductAmount' field is required")]
