@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 
 namespace Payment_API.Models
 {
@@ -14,5 +15,9 @@ namespace Payment_API.Models
 
         [Required(ErrorMessage = "'ProductAmount' field is required")]
         public int ProductAmount { get; set; }
+
+        //ef relation between product and sale
+        [JsonIgnore]
+        public virtual Transaction Transactions { get; set; }
     }
 }
