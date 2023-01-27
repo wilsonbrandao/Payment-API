@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 
-namespace Payment_API.Context
+namespace Payment_API.Data
 {
     public class PaymentApiContext : DbContext
     {
