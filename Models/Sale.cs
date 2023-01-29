@@ -11,13 +11,13 @@ namespace Payment_API.Models
         
         [Required(ErrorMessage = "pending seller field")]
         public int IdSeller { get; set; }
-        public Seller Seller { get; set; }
+        public virtual Seller Seller { get; set; }
 
         public EStatusSale StatusSale { get; set; } = EStatusSale.AwaitingPayment;
         
         public DateTime DateSale { get; set; } = DateTime.Now;
         
-        //ef relation between product and sale
+        //ef relationship between product and sale
         public virtual List<Transaction> Transactions { get; set; }
     }
 }

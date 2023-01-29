@@ -16,8 +16,8 @@ namespace Payment_API.Models
         [Required(ErrorMessage = "'ProductAmount' field is required")]
         public int ProductAmount { get; set; }
 
-        //ef relation between product and sale
+        //ef relationship between product and sale
         [JsonIgnore]
-        public virtual Transaction Transactions { get; set; }
+        public virtual List<Transaction> Transactions { get; set; }
     }
 }

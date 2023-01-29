@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 
 namespace Payment_API.Models
 {
@@ -22,5 +23,9 @@ namespace Payment_API.Models
 
         [Required(ErrorMessage = "'PhoneNumber' field is required")]
         public string PhoneNumber { get; set; }
+
+        //EF relationship
+        [JsonIgnore]
+        public virtual List<Sale> Sales { get; set; }
     }
 }
