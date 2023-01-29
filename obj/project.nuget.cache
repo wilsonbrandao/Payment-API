@@ -1,10 +1,11 @@
 {
   "version": 2,
-  "dgSpecHash": "qzuRrri4GTDp8PGReFu84VtakxFW6fjb+ChCLTQg4ThVTAb1WZ7CaqZie96N8SNUAhxyPjsxAlYOkai5TtD9WQ==",
+  "dgSpecHash": "6zhENctH9cvgT8bWNUielfislKWJzzIGQkCk9Dau9gXgLXCbfKlXvY1yXknlcWdmhDv6tw1PIV9yHP+sqscKEQ==",
   "success": true,
   "projectFilePath": "D:\\Google-Drive\\FACULDADE\\CURSOS\\8-itau-dev\\CShardpDio\\Payment-API\\Payment-API.csproj",
   "expectedPackageFiles": [
-    "C:\\Users\\wilso\\.nuget\\packages\\automapper\\12.0.1\\automapper.12.0.1.nupkg.sha512",
+    "C:\\Users\\wilso\\.nuget\\packages\\automapper\\12.0.0\\automapper.12.0.0.nupkg.sha512",
+    "C:\\Users\\wilso\\.nuget\\packages\\automapper.extensions.microsoft.dependencyinjection\\12.0.0\\automapper.extensions.microsoft.dependencyinjection.12.0.0.nupkg.sha512",
     "C:\\Users\\wilso\\.nuget\\packages\\azure.core\\1.24.0\\azure.core.1.24.0.nupkg.sha512",
     "C:\\Users\\wilso\\.nuget\\packages\\azure.identity\\1.6.0\\azure.identity.1.6.0.nupkg.sha512",
     "C:\\Users\\wilso\\.nuget\\packages\\humanizer.core\\2.14.1\\humanizer.core.2.14.1.nupkg.sha512",
