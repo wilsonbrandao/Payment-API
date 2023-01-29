@@ -1,5 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Mvc;
 using Payment_API.Data;
+using Payment_API.Data.DTOs.Product;
 using Payment_API.Models;
 
 namespace Payment_API.Controllers
@@ -9,16 +11,20 @@ namespace Payment_API.Controllers
     public class ProductController : ControllerBase
     {
         private readonly PaymentApiContext _context;
+        private readonly IMapper _mapper;
 
-        public ProductController(PaymentApiContext context)
+        public ProductController(PaymentApiContext context, IMapper mapper)
         {
             _context = context;
+            _mapper = mapper;
         }
 
         [HttpGet]
         public IActionResult GetProducts()
         {
-            return Ok(_context.Products);
+            List<Product> products = _context.Products.ToList();
+            List<ReadProductDto> readProductDto = _mapper.Map<List<ReadProductDto>>(products);
+            return Ok(readProductDto);
         }
 
         [HttpGet("{id}")]
@@ -26,25 +32,29 @@ namespace Payment_API.Controllers
         {
             Product productDatabase = _context.Products.Where(productQuery => productQuery.Id == id).FirstOrDefault();
             if(productDatabase == null) return NotFound();
-            return Ok(productDatabase);
+
+            ReadProductDto readProdutoDto = _mapper.Map<ReadProductDto>(productDatabase);
+
+            return Ok(readProdutoDto);
         }
 
         [HttpPost()]
-        public IActionResult RegisterProduct([FromBody] Product product)
+        public IActionResult RegisterProduct([FromBody] CreateProductDto createProductDto)
         {
+            Product product = _mapper.Map<Product>(createProductDto);
+
             _context.Products.Add(product);
             _context.SaveChanges();
 
-            return Ok(product);
+            return CreatedAtAction(nameof(GetProductById), new {Id = product.Id }, product);
         }
 
         [HttpPut("{id}")]
-        public IActionResult UpdateProduct(int id, [FromBody] Product product)
+        public IActionResult UpdateProduct(int id, [FromBody] UpdateProductDto updateProductDto)
         {
             Product productDatabase = _context.Products.Where(productQuery => productQuery.Id == id).FirstOrDefault();
 
-            productDatabase.Name = product.Name;
-            productDatabase.ProductAmount = product.ProductAmount;
+            _mapper.Map(updateProductDto, productDatabase);
 
             _context.SaveChanges();
 
