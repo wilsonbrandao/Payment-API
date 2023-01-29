@@ -1,5 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Mvc;
 using Payment_API.Data;
+using Payment_API.Data.DTOs.Seller;
 using Payment_API.Models;
 
 namespace Payment_API.Controllers
@@ -9,16 +11,20 @@ namespace Payment_API.Controllers
     public class SellerController : ControllerBase
     {
         private readonly PaymentApiContext _context;
+        private readonly IMapper _mapper;
 
-        public SellerController(PaymentApiContext context)
+        public SellerController(PaymentApiContext context, IMapper mapper)
         {
             _context = context;
+            _mapper = mapper;
         }
 
         [HttpGet]
         public IActionResult GetSellers ()
         {
-            return Ok(_context.Sellers);
+            List<Seller> sellers = _context.Sellers.ToList();
+            List<ReadSellerDto> ListReadSellerDto = _mapper.Map<List<ReadSellerDto>>(sellers);
+            return Ok(ListReadSellerDto);
         }
 
         [HttpGet("{id}")]
@@ -26,12 +32,15 @@ namespace Payment_API.Controllers
         {
             Seller seller = _context.Sellers.Where(seller => seller.Id == id).FirstOrDefault();
             if(seller == null) return NotFound();
-            return Ok(seller);
+            ReadSellerDto readSellerDto = _mapper.Map<ReadSellerDto>(seller);
+            return Ok(readSellerDto);
         }
 
         [HttpPost]
-        public IActionResult RegisterSeller([FromBody] Seller seller)
+        public IActionResult RegisterSeller([FromBody] CreateSellerDto createSellerDto)
         {
+            Seller seller = _mapper.Map<Seller>(createSellerDto);
+
             _context.Sellers.Add(seller);
             _context.SaveChanges();
 
@@ -39,17 +48,12 @@ namespace Payment_API.Controllers
         }
 
         [HttpPut("{id}")]
-        public IActionResult UpdateSeller(int id, [FromBody] Seller seller)
+        public IActionResult UpdateSeller(int id, [FromBody] UpdateSellerDto updateSellerDto)
         {
             Seller sellerDatabase = _context.Sellers.Where(sellerQuery => sellerQuery.Id == id).FirstOrDefault();  
             if (sellerDatabase == null) return NotFound();
 
-            sellerDatabase.Cpf = seller.Cpf;
-            sellerDatabase.Name = seller.Name;
-            sellerDatabase.Email = seller.Email;
-            sellerDatabase.PhoneNumber = seller.PhoneNumber;
-
-            _context.Sellers.Update(sellerDatabase);
+            sellerDatabase = _mapper.Map(updateSellerDto, sellerDatabase);
             _context.SaveChanges();
 
             return NoContent();
