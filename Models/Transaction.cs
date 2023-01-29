@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 
 namespace Payment_API.Models
 {
@@ -14,6 +15,7 @@ namespace Payment_API.Models
         public DateTime DateTimeTransaction { get; set; }
 
         //virtual to lazy load
+        [JsonIgnore]
         public virtual Sale Sale { get; set; }
         public virtual Product Product { get; set; }
     }

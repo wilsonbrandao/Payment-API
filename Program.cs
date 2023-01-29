@@ -15,7 +15,7 @@ builder.Services.AddControllers().AddJsonOptions(x =>
 //database service SQL Server
 builder.Services.AddDbContext<PaymentApiContext>
 (
-    options => options.UseSqlServer
+    options => options.UseLazyLoadingProxies().UseSqlServer
     (
         builder.Configuration.GetConnectionString("SqlServer")
     )
