@@ -8,7 +8,9 @@ namespace Payment_API.Profiles
     {
         public SaleProfile()
         {
-            CreateMap<ReadSaleDto, Sale>();
+            CreateMap<Sale, ReadSaleDto>();
+            CreateMap<CreateSaleDto, Sale>();
+            CreateMap<UpdateSaleDto, Sale>();
         }
     }
 }

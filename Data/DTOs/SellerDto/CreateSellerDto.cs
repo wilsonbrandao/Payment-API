@@ -14,7 +14,7 @@ namespace Payment_API.Data.DTOs.SellerDto
         [Required(ErrorMessage = "'Name' field is required")]
         [StringLength(100, ErrorMessage = "'Name' field cannot exceed 100 characters")]
         public string Name { get; set; }
-        s
+        
         [Required(ErrorMessage = "'Email' field is required")]
         public string Email { get; set; }
 

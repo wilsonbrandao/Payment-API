@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Payment_API.Data;
+using Payment_API.Data.DTOs.SaleDto;
 using Payment_API.Models;
 
 namespace Payment_API.Controllers
@@ -21,7 +22,9 @@ namespace Payment_API.Controllers
         [HttpGet]
         public IActionResult GetSales()
         {
-            return Ok(_context.Sales);
+            List<Sale> saleDatabase = _context.Sales.ToList();
+            List<ReadSaleDto> readSaleDto = _mapper.Map<List<ReadSaleDto>>(saleDatabase);
+            return Ok(readSaleDto);
         }
 
         [HttpGet("{id}")]
@@ -29,53 +32,31 @@ namespace Payment_API.Controllers
         {
             Sale saleDatabase = _context.Sales.Where(saleQuery => saleQuery.Id == id).FirstOrDefault();
             if(saleDatabase == null) return NotFound();
-            return Ok(saleDatabase);
+            ReadSaleDto readSaleDto = _mapper.Map<ReadSaleDto>(saleDatabase);
+            return Ok(readSaleDto);
         }
 
         [HttpPost]
-        public IActionResult RegisterSale([FromBody] Sale createSale)
+        public IActionResult RegisterSale([FromBody] CreateSaleDto createSaleDto)
         {
-            Sale sale = new Sale()
-            {
-                IdSeller = createSale.IdSeller,
-                StatusSale = createSale.StatusSale,
-            };
+            Sale sale = _mapper.Map<Sale>(createSaleDto);
             _context.Sales.Add(sale);
             _context.SaveChanges();
-
-            List <Transaction> transactions = createSale.Transactions.ToList();
-            foreach(Transaction transaction in transactions)
-            {
-                transaction.SaleId = sale.Id;
-                _context.Transactions.Add(transaction);
-                _context.SaveChanges();
-            }
-
             return CreatedAtAction(nameof(GetSaleById), new {Id = sale.Id}, sale);
         }
 
         [HttpPut("{id}")]
-        public IActionResult UpdateSale(int id, [FromBody] Sale updateSale)
+        public IActionResult UpdateSale(int id, [FromBody] UpdateSaleDto updateSaleDto)
         {
             Sale saleDatabase = _context.Sales.Where (saleQuery => saleQuery.Id == id).FirstOrDefault();
             if(saleDatabase ==null) return NotFound();
 
-            List<Transaction> transactionsDataBase = _context.Transactions.Where(transactionQuery => transactionQuery.SaleId == id).ToList();
-            foreach (Transaction transactionDatabase in transactionsDataBase)
-            {
-                _context.Transactions.Remove(transactionDatabase);
-            }
+            _context.Sales.Remove(saleDatabase);
 
-            List<Transaction> transactions = updateSale.Transactions.ToList();
-            foreach (Transaction transaction in transactions)
-            {
-                transaction.SaleId = saleDatabase.Id;
-                _context.Transactions.Add(transaction);
-            }
+            saleDatabase = _mapper.Map<Sale>(updateSaleDto);
+            saleDatabase.Id = id;
 
-            saleDatabase.IdSeller = updateSale.IdSeller;
-            saleDatabase.StatusSale = updateSale.StatusSale;
-
+            _context.Sales.Add(saleDatabase);
             _context.SaveChanges();
 
             return NoContent();
@@ -86,12 +67,6 @@ namespace Payment_API.Controllers
         {
             Sale saleDatabase = _context.Sales.Where(saleQuery => saleQuery.Id == id).FirstOrDefault();
             if (saleDatabase == null) return NotFound();
-
-            List<Transaction> transactionsDataBase = _context.Transactions.Where(transactionQuery => transactionQuery.SaleId == id).ToList();
-            foreach (Transaction transactionDatabase in transactionsDataBase)
-            {
-                _context.Transactions.Remove(transactionDatabase);
-            }
 
             _context.Sales.Remove(saleDatabase);
             _context.SaveChanges();

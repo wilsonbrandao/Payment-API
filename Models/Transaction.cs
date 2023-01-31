@@ -12,7 +12,7 @@ namespace Payment_API.Models
         public int SaleId { get; set; }
         public int ProductId { get; set; }
 
-        public DateTime DateTimeTransaction { get; set; }
+        public DateTime DateTimeTransaction { get; set; } = DateTime.Now;
 
         //virtual to lazy load
         [JsonIgnore]
