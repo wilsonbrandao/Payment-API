@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using Payment_API.Data.DTOs.Product;
+using Payment_API.Data.DTOs.ProductDto;
 using Payment_API.Models;
 
 namespace Payment_API.Profiles

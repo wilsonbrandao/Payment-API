@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Payment_API.Data.DTOs.Seller
+namespace Payment_API.Data.DTOs.SellerDto
 {
     public class UpdateSellerDto
     {

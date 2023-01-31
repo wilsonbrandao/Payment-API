@@ -1,4 +1,4 @@
-﻿namespace Payment_API.Data.DTOs.Product
+﻿namespace Payment_API.Data.DTOs.ProductDto
 {
     public class UpdateProductDto
     {

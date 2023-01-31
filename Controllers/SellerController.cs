@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Payment_API.Data;
-using Payment_API.Data.DTOs.Seller;
+using Payment_API.Data.DTOs.SellerDto;
 using Payment_API.Models;
 
 namespace Payment_API.Controllers

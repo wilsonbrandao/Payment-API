@@ -2,7 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
 
-namespace Payment_API.Data.DTOs.Seller
+namespace Payment_API.Data.DTOs.SellerDto
 {
     public class ReadSellerDto
     {
