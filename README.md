@@ -12,8 +12,11 @@ EntityFramework
 SQL Server
 
 Como executar o projeto em ambiente de desenvolvimento
+
 Pré-requisitos
+
 Ter o runtime [.NET 6](https://dotnet.microsoft.com/pt-br/download/dotnet/6.0) instalado.
+
 Ter o [SQL Server](https://www.microsoft.com/pt-br/sql-server/sql-server-downloads) instalado
 
 Executando o projeto
