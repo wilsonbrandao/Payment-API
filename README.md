@@ -1,7 +1,6 @@
 # Payment-API
 
-Payment API
-Projeto pessoal de estudos para fixar com conhecimentos adquiridos nos últimos meses estudando C#, .NET e ASP.NET.
+Projeto pessoal de estudos para fixar os conhecimentos adquiridos nos últimos meses estudando C#, .NET e ASP.NET.
 
 ## Tecnologias utilizadas
 - .NET 6
