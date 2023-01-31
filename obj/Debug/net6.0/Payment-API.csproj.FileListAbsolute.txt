@@ -84,3 +84,4 @@ D:\Google-Drive\FACULDADE\CURSOS\8-itau-dev\CShardpDio\Payment-API\bin\Debug\net
 D:\Google-Drive\FACULDADE\CURSOS\8-itau-dev\CShardpDio\Payment-API\bin\Debug\net6.0\AutoMapper.Extensions.Microsoft.DependencyInjection.dll
 D:\Google-Drive\FACULDADE\CURSOS\8-itau-dev\CShardpDio\Payment-API\bin\Debug\net6.0\Castle.Core.dll
 D:\Google-Drive\FACULDADE\CURSOS\8-itau-dev\CShardpDio\Payment-API\bin\Debug\net6.0\Microsoft.EntityFrameworkCore.Proxies.dll
+D:\Google-Drive\FACULDADE\CURSOS\8-itau-dev\CShardpDio\Payment-API\bin\Debug\net6.0\FluentResults.dll

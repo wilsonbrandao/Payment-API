@@ -1,8 +1,10 @@
 ﻿using AutoMapper;
+using FluentResults;
 using Microsoft.AspNetCore.Mvc;
 using Payment_API.Data;
 using Payment_API.Data.DTOs.SellerDto;
 using Payment_API.Models;
+using Payment_API.Services;
 
 namespace Payment_API.Controllers
 {
@@ -10,51 +12,41 @@ namespace Payment_API.Controllers
     [Route("[Controller]")]
     public class SellerController : ControllerBase
     {
-        private readonly PaymentApiContext _context;
-        private readonly IMapper _mapper;
+        private readonly SellerService _sellerService;   
 
-        public SellerController(PaymentApiContext context, IMapper mapper)
+        public SellerController(SellerService sellerService)
         {
-            _context = context;
-            _mapper = mapper;
+            _sellerService = sellerService;
         }
 
         [HttpGet]
         public IActionResult GetSellers ()
         {
-            List<Seller> sellers = _context.Sellers.ToList();
-            List<ReadSellerDto> ListReadSellerDto = _mapper.Map<List<ReadSellerDto>>(sellers);
-            return Ok(ListReadSellerDto);
+            List<ReadSellerDto> readSellerDto = _sellerService.GetSellers();
+            return Ok(readSellerDto);
         }
 
         [HttpGet("{id}")]
         public IActionResult GetSellerById (int id)
         {
-            Seller seller = _context.Sellers.Where(seller => seller.Id == id).FirstOrDefault();
-            if(seller == null) return NotFound();
-            ReadSellerDto readSellerDto = _mapper.Map<ReadSellerDto>(seller);
+            ReadSellerDto readSellerDto = _sellerService.GetSellerById(id);
+            if(readSellerDto == null) return NotFound();
+
             return Ok(readSellerDto);
         }
 
         [HttpPost]
         public IActionResult RegisterSeller([FromBody] CreateSellerDto createSellerDto)
         {
-            Seller seller = _mapper.Map<Seller>(createSellerDto);
-
-            _context.Sellers.Add(seller);
-            _context.SaveChanges();
-
-            return CreatedAtAction(nameof(GetSellerById), new {Id = seller.Id}, seller);
+            ReadSellerDto readSellerDto = _sellerService.RegisterSeller(createSellerDto);
+            return CreatedAtAction(nameof(GetSellerById), new {Id = readSellerDto.Id}, readSellerDto);
         }
 
         [HttpPut("{id}")]
         public IActionResult UpdateSeller(int id, [FromBody] UpdateSellerDto updateSellerDto)
         {
-            Seller sellerDatabase = _context.Sellers.Where(sellerQuery => sellerQuery.Id == id).FirstOrDefault();  
-            if (sellerDatabase == null) return NotFound();
-
-            sellerDatabase = _mapper.Map(updateSellerDto, sellerDatabase);
-            _context.SaveChanges();
+            Result result = _sellerService.UpdateSeller(id, updateSellerDto);
+            if (result.IsFailed) return NotFound();          
 
             return NoContent();
         }
@@ -62,10 +54,8 @@ namespace Payment_API.Controllers
         [HttpDelete("{id}")]
         public IActionResult DeleteSeller(int id)
         {
-            Seller seller = _context.Sellers.Where(seller => seller.Id == id).FirstOrDefault();
-            
-            _context.Sellers.Remove(seller);
-            _context.SaveChanges();
+            Result result = _sellerService.DeleteSeller(id);
+            if(result.IsFailed) return NotFound();
 
             return NoContent();
         }

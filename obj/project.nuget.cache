@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "gvBGKhZe3wByvZ2m0N4z26CjTFJ54yRC7rf1uwdY1+3uB6RHgBIAO6bGe7CClGXj90tE3xpfp6f9IFD261BSEA==",
+  "dgSpecHash": "zmlVG4fDbT8HWzbVgnGIQFAEcNIbz+CbDNfkGDK8NC/UOkM72QTn5NJV+WoUdikPm8MGiWI/kfelAxumo5EKzA==",
   "success": true,
   "projectFilePath": "D:\\Google-Drive\\FACULDADE\\CURSOS\\8-itau-dev\\CShardpDio\\Payment-API\\Payment-API.csproj",
   "expectedPackageFiles": [
@@ -9,6 +9,7 @@
     "C:\\Users\\wilso\\.nuget\\packages\\azure.core\\1.24.0\\azure.core.1.24.0.nupkg.sha512",
     "C:\\Users\\wilso\\.nuget\\packages\\azure.identity\\1.6.0\\azure.identity.1.6.0.nupkg.sha512",
     "C:\\Users\\wilso\\.nuget\\packages\\castle.core\\5.1.0\\castle.core.5.1.0.nupkg.sha512",
+    "C:\\Users\\wilso\\.nuget\\packages\\fluentresults\\3.15.1\\fluentresults.3.15.1.nupkg.sha512",
     "C:\\Users\\wilso\\.nuget\\packages\\humanizer.core\\2.14.1\\humanizer.core.2.14.1.nupkg.sha512",
     "C:\\Users\\wilso\\.nuget\\packages\\microsoft.bcl.asyncinterfaces\\1.1.1\\microsoft.bcl.asyncinterfaces.1.1.1.nupkg.sha512",
     "C:\\Users\\wilso\\.nuget\\packages\\microsoft.csharp\\4.7.0\\microsoft.csharp.4.7.0.nupkg.sha512",
