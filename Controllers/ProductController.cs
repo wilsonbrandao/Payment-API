@@ -1,8 +1,10 @@
 ﻿using AutoMapper;
+using FluentResults;
 using Microsoft.AspNetCore.Mvc;
 using Payment_API.Data;
 using Payment_API.Data.DTOs.ProductDto;
 using Payment_API.Models;
+using Payment_API.Services;
 
 namespace Payment_API.Controllers
 {
@@ -10,64 +12,50 @@ namespace Payment_API.Controllers
     [Route("[Controller]")]
     public class ProductController : ControllerBase
     {
-        private readonly PaymentApiContext _context;
-        private readonly IMapper _mapper;
+        private readonly ProductService _productService;
 
-        public ProductController(PaymentApiContext context, IMapper mapper)
+        public ProductController(ProductService productService)
         {
-            _context = context;
-            _mapper = mapper;
+            _productService = productService;
         }
 
         [HttpGet]
         public IActionResult GetProducts()
         {
-            List<Product> products = _context.Products.ToList();
-            List<ReadProductDto> readProductDto = _mapper.Map<List<ReadProductDto>>(products);
+            List<ReadProductDto> readProductDto = _productService.GetProducts();
             return Ok(readProductDto);
         }
 
         [HttpGet("{id}")]
         public IActionResult GetProductById(int id)
         {
-            Product productDatabase = _context.Products.Where(productQuery => productQuery.Id == id).FirstOrDefault();
-            if(productDatabase == null) return NotFound();
+            ReadProductDto readProductDto = _productService.GetProductById(id);
+            if(readProductDto == null) return NotFound();
 
-            ReadProductDto readProdutoDto = _mapper.Map<ReadProductDto>(productDatabase);
-
-            return Ok(readProdutoDto);
+            return Ok(readProductDto);
         }
 
         [HttpPost()]
         public IActionResult RegisterProduct([FromBody] CreateProductDto createProductDto)
         {
-            Product product = _mapper.Map<Product>(createProductDto);
-
-            _context.Products.Add(product);
-            _context.SaveChanges();
-
-            return CreatedAtAction(nameof(GetProductById), new {Id = product.Id }, product);
+            ReadProductDto readProductDto = _productService.RegisterProduct(createProductDto);
+            return CreatedAtAction(nameof(GetProductById), new {Id = readProductDto.Id }, readProductDto);
         }
 
         [HttpPut("{id}")]
         public IActionResult UpdateProduct(int id, [FromBody] UpdateProductDto updateProductDto)
         {
-            Product productDatabase = _context.Products.Where(productQuery => productQuery.Id == id).FirstOrDefault();
-
-            _mapper.Map(updateProductDto, productDatabase);
-
-            _context.SaveChanges();
-
+            Result result = _productService.UpdateProduct(id, updateProductDto);
+            if (result.IsFailed) return NotFound();
+            
             return NoContent();
         }
 
         [HttpDelete("{id}")]
         public IActionResult DeleteProduct(int id)
         {
-            Product productDatabase = _context.Products.Where(productQuery => productQuery.Id == id).FirstOrDefault();
-
-            _context.Products.Remove(productDatabase);
-            _context.SaveChanges();
+            Result result = _productService.DeleteProduct(id);
+            if (result.IsFailed) return NotFound();
 
             return NoContent();
         }
