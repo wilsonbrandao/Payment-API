@@ -1,8 +1,10 @@
 ﻿using AutoMapper;
+using FluentResults;
 using Microsoft.AspNetCore.Mvc;
 using Payment_API.Data;
 using Payment_API.Data.DTOs.SaleDto;
 using Payment_API.Models;
+using Payment_API.Services;
 
 namespace Payment_API.Controllers
 {
@@ -10,69 +12,49 @@ namespace Payment_API.Controllers
     [Route("[Controller]")]
     public class SaleController : ControllerBase
     {
-        private readonly PaymentApiContext _context;
-        private readonly IMapper _mapper;
+        private readonly SaleService _saleService;
 
-        public SaleController(PaymentApiContext context, IMapper mapper)
+        public SaleController(SaleService saleService)
         {
-            _context = context;
-            _mapper = mapper;
+            _saleService = saleService;
         }
 
         [HttpGet]
         public IActionResult GetSales()
         {
-            List<Sale> saleDatabase = _context.Sales.ToList();
-            List<ReadSaleDto> readSaleDto = _mapper.Map<List<ReadSaleDto>>(saleDatabase);
+            List<ReadSaleDto> readSaleDto = _saleService.GetSales();
             return Ok(readSaleDto);
         }
 
         [HttpGet("{id}")]
         public IActionResult GetSaleById(int id)
         {
-            Sale saleDatabase = _context.Sales.Where(saleQuery => saleQuery.Id == id).FirstOrDefault();
-            if(saleDatabase == null) return NotFound();
-            ReadSaleDto readSaleDto = _mapper.Map<ReadSaleDto>(saleDatabase);
+            ReadSaleDto readSaleDto = _saleService.GetSaleById(id);
+            if (readSaleDto == null) return null;
             return Ok(readSaleDto);
         }
 
         [HttpPost]
         public IActionResult RegisterSale([FromBody] CreateSaleDto createSaleDto)
         {
-            Sale sale = _mapper.Map<Sale>(createSaleDto);
-            _context.Sales.Add(sale);
-            _context.SaveChanges();
-            return CreatedAtAction(nameof(GetSaleById), new {Id = sale.Id}, sale);
+            ReadSaleDto readSaleDto = _saleService.RegisterSale(createSaleDto);
+            return CreatedAtAction(nameof(GetSaleById), new {Id = readSaleDto.Id}, readSaleDto);
         }
 
         [HttpPut("{id}")]
         public IActionResult UpdateSale(int id, [FromBody] UpdateSaleDto updateSaleDto)
         {
-            Sale saleDatabase = _context.Sales.Where (saleQuery => saleQuery.Id == id).FirstOrDefault();
-            if(saleDatabase ==null) return NotFound();
-
-            _context.Sales.Remove(saleDatabase);
-
-            saleDatabase = _mapper.Map<Sale>(updateSaleDto);
-            saleDatabase.Id = id;
-
-            _context.Sales.Add(saleDatabase);
-            _context.SaveChanges();
-
+            Result result = _saleService.UpdateSale(id, updateSaleDto);
+            if (result.IsFailed) return NotFound();
             return NoContent();
         }
 
         [HttpDelete("{id}")]
         public IActionResult DeleteSale(int id)
         {
-            Sale saleDatabase = _context.Sales.Where(saleQuery => saleQuery.Id == id).FirstOrDefault();
-            if (saleDatabase == null) return NotFound();
-
-            _context.Sales.Remove(saleDatabase);
-            _context.SaveChanges();
-
+            Result result = _saleService.DeleteSale(id);
+            if (result.IsFailed) return NotFound();
             return NoContent();
         }
-
     }
 }

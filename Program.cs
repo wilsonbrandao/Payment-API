@@ -25,6 +25,7 @@ builder.Services.AddDbContext<PaymentApiContext>
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 builder.Services.AddScoped<SellerService, SellerService>();
 builder.Services.AddScoped<ProductService, ProductService>();
+builder.Services.AddScoped<SaleService, SaleService>();
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
